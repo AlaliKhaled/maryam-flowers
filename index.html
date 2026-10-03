@@ -8,7 +8,7 @@
 <title>maryam@heart: ~</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Amiri:wght@700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet" />
 <style>
   :root{
     --bg:#1a0d12; --term:#140a0e; --bar:#241318; --border:#3d2128;
@@ -74,20 +74,6 @@
   }
   @keyframes rise{to{opacity:1;transform:none;}}
 
-  /* big readable Arabic name — the hero */
-  .bigname-ar{
-    display:block; font-family:"Amiri", serif; font-weight:700; direction:rtl;
-    font-size:clamp(3.2rem,16vw,6rem); line-height:1.1; margin:.4rem 0 .1rem;
-    background:linear-gradient(120deg,#ff6b81,#ff8fab 45%,#f7c873);
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-    text-shadow:none;
-    opacity:0; animation:rise .6s ease forwards;
-  }
-  .bigname-en{
-    display:block; font-weight:800; letter-spacing:.3em;
-    font-size:clamp(1rem,5vw,1.9rem); line-height:1.2; margin:0 0 .3rem;
-    color:#ffb3c6; opacity:0; animation:rise .7s ease forwards;
-  }
   .flowers{font-size:1.3rem;letter-spacing:.2em; color:initial;}
 
   .bar-wrap{color:var(--dim);}
@@ -109,11 +95,8 @@
 
 <script>
 /* ============ config ============ */
-const NAME_EN = "MARYAM";
-const NAME_AR = "مريم";
 const USER = "khaled";     // sender
 const MSG  = "You are the best thing that ever compiled into my life.";
-const MSG_AR = "كلّ يومٍ معكِ هو أجمل من سابقه. أحبّكِ يا مريم.";
 
 /* Clear ASCII banner for M A R Y A M (standard block font) */
 const BANNER = String.raw`
@@ -208,9 +191,6 @@ async function boot(){
     addLine(`<span class="art">${esc(row)}</span>`);
     await sleep(110);
   }
-  // hero: big readable Arabic name + english subtitle
-  addLine(`<span class="bigname-ar">${esc(NAME_AR)}</span>`);
-  addLine(`<span class="bigname-en">${esc(NAME_EN)}</span>`);
   addLine(`<span class="flowers art">${flowerRow}</span>`);
   addLine("");
   await sleep(500);
@@ -218,9 +198,6 @@ async function boot(){
   await typeCmd("echo $MESSAGE");
   await sleep(200);
   await typeLineColored(MSG, "pink");
-  addLine("");
-  await sleep(200);
-  await typeLineColored(MSG_AR, "rose", "rtl");
   addLine("");
   await sleep(300);
 
