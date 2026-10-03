@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#1a0d12" />
+<meta name="description" content="A gift for مريم, compiled with love ❤️" />
+<title>maryam@heart: ~</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Amiri:wght@700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#1a0d12; --term:#140a0e; --bar:#241318; --border:#3d2128;
+    --txt:#f3e6ea; --dim:#b98b96; --green:#3fb950; --cyan:#56d4dd;
+    --pink:#f778ba; --yellow:#e3b341; --purple:#bc8cff; --red:#ff6b81;
+    --rose:#ff8fab; --gold:#f7c873; --prompt:#ff8fab;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    background:
+      radial-gradient(circle at 20% 20%, #4a122433, transparent 40%),
+      radial-gradient(circle at 80% 70%, #4a1a3a33, transparent 40%),
+      var(--bg);
+    font-family:"JetBrains Mono", ui-monospace, monospace;
+    color:var(--txt); padding:16px; overflow:hidden;
+  }
+
+  .window{
+    width:min(800px,100%); border:1px solid var(--border);
+    border-radius:10px; background:var(--term); overflow:hidden;
+    box-shadow:0 24px 60px rgba(0,0,0,.6);
+  }
+  .titlebar{
+    display:flex; align-items:center; gap:8px; padding:10px 14px;
+    background:var(--bar); border-bottom:1px solid var(--border);
+  }
+  .dot{width:12px;height:12px;border-radius:50%;}
+  .dot.r{background:#ff5f56;} .dot.y{background:#ffbd2e;} .dot.g{background:#27c93f;}
+  .title{flex:1;text-align:center;color:var(--dim);font-size:.8rem;letter-spacing:.02em;}
+
+  .screen{
+    padding:18px 20px 22px; height:min(70vh,620px);
+    overflow-y:auto; font-size:.95rem; line-height:1.6;
+    white-space:pre-wrap; word-break:break-word;
+  }
+  .screen::-webkit-scrollbar{width:8px;}
+  .screen::-webkit-scrollbar-thumb{background:var(--border);border-radius:8px;}
+
+  .line{display:block;}
+  .prompt{color:var(--prompt);}
+  .path{color:var(--cyan);}
+  .green{color:var(--green);} .dim{color:var(--dim);} .pink{color:var(--pink);}
+  .yellow{color:var(--yellow);} .purple{color:var(--purple);} .cyan{color:var(--cyan);}
+  .red{color:var(--red);} .rose{color:var(--rose);} .gold{color:var(--gold);} .white{color:#fff;}
+
+  .cursor{
+    display:inline-block;width:9px;height:1.05em;background:var(--rose);
+    vertical-align:-2px;animation:blink 1s step-end infinite;margin-left:2px;
+  }
+  @keyframes blink{50%{opacity:0;}}
+
+  /* ---- ASCII name (decorative) ---- */
+  .art{
+    display:block; font-weight:800; line-height:1.02; white-space:pre;
+    color:#ffb3c6;
+    text-shadow:0 0 14px rgba(255,107,129,.5), 0 0 2px rgba(255,255,255,.55);
+    font-size:clamp(.5rem,2.5vw,1.2rem); margin:.35rem 0;
+    opacity:0; transform:translateY(8px);
+    animation:rise .55s ease forwards;
+    overflow-x:auto;
+  }
+  @keyframes rise{to{opacity:1;transform:none;}}
+
+  /* big readable Arabic name — the hero */
+  .bigname-ar{
+    display:block; font-family:"Amiri", serif; font-weight:700; direction:rtl;
+    font-size:clamp(3.2rem,16vw,6rem); line-height:1.1; margin:.4rem 0 .1rem;
+    background:linear-gradient(120deg,#ff6b81,#ff8fab 45%,#f7c873);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    text-shadow:none;
+    opacity:0; animation:rise .6s ease forwards;
+  }
+  .bigname-en{
+    display:block; font-weight:800; letter-spacing:.3em;
+    font-size:clamp(1rem,5vw,1.9rem); line-height:1.2; margin:0 0 .3rem;
+    color:#ffb3c6; opacity:0; animation:rise .7s ease forwards;
+  }
+  .flowers{font-size:1.3rem;letter-spacing:.2em; color:initial;}
+
+  .bar-wrap{color:var(--dim);}
+  .bar-fill{color:var(--rose);}
+
+  .fx{position:fixed;top:-30px;color:#ff6b8155;user-select:none;pointer-events:none;
+      font-size:1rem;animation:fall linear infinite;z-index:0;}
+  @keyframes fall{to{transform:translateY(105vh) rotate(360deg);}}
+</style>
+</head>
+<body>
+  <div class="window">
+    <div class="titlebar">
+      <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+      <span class="title">maryam@heart: ~/love</span>
+    </div>
+    <div class="screen" id="screen"></div>
+  </div>
+
+<script>
+/* ============ config ============ */
+const NAME_EN = "MARYAM";
+const NAME_AR = "مريم";
+const USER = "khaled";     // sender
+const MSG  = "You are the best thing that ever compiled into my life.";
+const MSG_AR = "كلّ يومٍ معكِ هو أجمل من سابقه. أحبّكِ يا مريم.";
+
+/* Clear ASCII banner for M A R Y A M (standard block font) */
+const BANNER = String.raw`
+ __  __     _     ____   __   __     _     __  __
+|  \/  |   / \   |  _ \  \ \ / /    / \   |  \/  |
+| |\/| |  / _ \  | |_) |  \ V /    / _ \  | |\/| |
+| |  | | / ___ \ |  _ <    | |    / ___ \ | |  | |
+|_|  |_|/_/   \_\|_| \_\   |_|   /_/   \_\|_|  |_|
+`;
+
+const flowerRow = "🌹  🌸  💗  🌷  ❤️  🌹  🌸  💗  🌷  ❤️";
+
+/* ============ terminal engine ============ */
+const screen = document.getElementById("screen");
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+
+function addLine(html=""){
+  const el = document.createElement("span");
+  el.className = "line";
+  el.innerHTML = html;
+  screen.appendChild(el);
+  screen.scrollTop = screen.scrollHeight;
+  return el;
+}
+
+async function typeCmd(cmd){
+  const el = addLine(`<span class="prompt">${USER}@heart</span>:<span class="path">~/love</span>$ `);
+  const cur = document.createElement("span");
+  cur.className = "cursor";
+  el.appendChild(cur);
+  for (const ch of cmd){
+    cur.insertAdjacentText("beforebegin", ch);
+    screen.scrollTop = screen.scrollHeight;
+    await sleep(30 + Math.random()*45);
+  }
+  await sleep(180);
+  cur.remove();
+}
+
+async function progress(label){
+  const el = addLine(`<span class="dim">${label}</span> <span class="bar-wrap">[</span><span class="bar-fill"></span><span class="bar-wrap"></span><span class="bar-wrap">]</span> <span class="rose">  0%</span>`);
+  const fill = el.querySelector(".bar-fill");
+  const rest = el.querySelectorAll(".bar-wrap")[1];
+  const pct  = el.querySelector(".rose");
+  const total = 24;
+  for (let i=0;i<=total;i++){
+    fill.textContent = "█".repeat(i);
+    rest.textContent = "░".repeat(total-i);
+    pct.textContent = String(Math.round(i/total*100)).padStart(3," ")+"%";
+    screen.scrollTop = screen.scrollHeight;
+    await sleep(35+Math.random()*35);
+  }
+}
+
+async function typeLineColored(text, cls, dir){
+  const el = addLine(`<span class="${cls}"${dir?` dir="${dir}"`:""}></span>`);
+  const span = el.firstChild;
+  for (const ch of text){
+    span.textContent += ch;
+    screen.scrollTop = screen.scrollHeight;
+    await sleep(24+Math.random()*30);
+  }
+}
+
+/* ============ the show ============ */
+async function boot(){
+  addLine(`<span class="dim"># gift.sh — compiled with ❤️ by ${USER}</span>`);
+  addLine("");
+  await sleep(500);
+
+  await typeCmd("whoami");
+  addLine(`<span class="rose">maryam</span>`);
+  addLine("");
+  await sleep(300);
+
+  await typeCmd("./love --to maryam --forever");
+  addLine(`<span class="dim">Initializing love runtime v1.0.0…</span>`);
+  await sleep(400);
+  await progress("counting heartbeats ");
+  await progress("gathering roses     ");
+  await progress("wrapping my heart   ");
+  addLine(`<span class="green">✓ build succeeded</span> <span class="dim">— 0 errors, ∞ love</span>`);
+  addLine("");
+  await sleep(400);
+
+  await typeCmd("cat name.txt");
+  await sleep(200);
+
+  for (const row of BANNER.split("\n")){
+    if (row.length===0) continue;
+    addLine(`<span class="art">${esc(row)}</span>`);
+    await sleep(110);
+  }
+  // hero: big readable Arabic name + english subtitle
+  addLine(`<span class="bigname-ar">${esc(NAME_AR)}</span>`);
+  addLine(`<span class="bigname-en">${esc(NAME_EN)}</span>`);
+  addLine(`<span class="flowers art">${flowerRow}</span>`);
+  addLine("");
+  await sleep(500);
+
+  await typeCmd("echo $MESSAGE");
+  await sleep(200);
+  await typeLineColored(MSG, "pink");
+  addLine("");
+  await sleep(200);
+  await typeLineColored(MSG_AR, "rose", "rtl");
+  addLine("");
+  await sleep(300);
+
+  addLine(`<span class="dim">Signed,</span> <span class="purple">${USER}</span> <span class="red">❤️</span>`);
+  addLine("");
+
+  const el = addLine(`<span class="prompt">${USER}@heart</span>:<span class="path">~/love</span>$ `);
+  const cur = document.createElement("span");
+  cur.className = "cursor";
+  el.appendChild(cur);
+}
+
+boot();
+
+/* ambient falling roses & hearts behind window */
+const glyphs = ["🌹","❤️","💗","🌸","·","🌷","+"];
+setInterval(()=>{
+  const s=document.createElement("div");
+  s.className="fx"; s.textContent=glyphs[Math.floor(Math.random()*glyphs.length)];
+  s.style.left=Math.random()*100+"vw";
+  s.style.animationDuration=(7+Math.random()*7)+"s";
+  s.style.fontSize=(0.8+Math.random()*1.4)+"rem";
+  document.body.appendChild(s);
+  setTimeout(()=>s.remove(),14000);
+},700);
+</script>
+</body>
+</html>
